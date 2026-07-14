@@ -2,7 +2,7 @@
 ### Project Report
 **Course:** EWA408510 – E-Commerce and Web Application
 **Instructor:** Eric Maniraguha
-**Academic Year:** 2025–2026
+**Academic Year:** 2026–2026
 **Student:** CONFIANCE Iradukunda
 
 ---

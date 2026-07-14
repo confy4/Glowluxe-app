@@ -3,7 +3,7 @@
 > **Course:** EWA408510 – E-Commerce and Web Application | Final Project
 > **Student:** CONFIANCE Iradukunda
 > **Instructor:** Eric Maniraguha
-> **Academic Year:** 2025–2026
+> **Academic Year:** 2026–2026
 
 [![CI](https://github.com/confy4/Glowluxe-app/actions/workflows/ci.yml/badge.svg)](https://github.com/confy4/Glowluxe-app/actions/workflows/ci.yml)
 
@@ -212,7 +212,7 @@ npm test
 | Feature | Details |
 |---|---|
 | 🔍 Product Search | Real-time search combined with category filtering |
-| 📊 Admin Dashboard | Revenue, orders, top products at `/admin?pass=glowluxe2025` |
+| 📊 Admin Dashboard | Revenue, orders, top products at `/admin?pass=glowluxe2026` |
 | 📧 Email Confirmation | Styled HTML email with order details sent to customer |
 | ⏱️ Delivery Estimate | Auto-calculated 2-hour delivery time shown on confirmation |
 | 📱 PWA | App installable on mobile with offline support |
@@ -244,4 +244,4 @@ GlowLuxe demonstrates a complete, production-ready e-commerce web application co
 
 ---
 
-> © 2025 GlowLuxe Lotion Co. — Made with ❤️ in Rwanda
+> © 2026 GlowLuxe Lotion Co. — Made with ❤️ in Rwanda
