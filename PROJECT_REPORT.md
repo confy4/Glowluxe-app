@@ -145,17 +145,13 @@ The database contains three tables with the following structure:
 
 ## 9. GitHub Repository Link
 
-> https://github.com/[your-username]/glowluxe-app
-
-*(Replace with your actual GitHub repository URL)*
+https://github.com/confy4/Glowluxe-app
 
 ---
 
 ## 10. Deployment Link
 
-> https://[your-deployment-url]
-
-*(Replace with your actual live deployment URL, e.g. Render, Railway, or Vercel)*
+https://glowluxe-app-1.onrender.com
 
 ---
 
