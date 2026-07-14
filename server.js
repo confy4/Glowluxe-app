@@ -221,7 +221,7 @@ app.post('/checkout', (req, res) => {
 app.get('/about', (req, res) => res.render('about', { cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) }));
 
 app.get('/admin', (req, res) => {
-  if (req.query.pass !== 'glowluxe2025') return res.status(401).send('Unauthorized');
+  if (req.query.pass !== 'glowluxe2025') return res.status(401).render('unauthorized');
   const cartCount = req.session.cart.reduce((sum, item) => sum + item.quantity, 0);
   db.get('SELECT COUNT(*) AS count FROM orders', (err, r1) => {
     db.get('SELECT COALESCE(SUM(total),0) AS revenue FROM orders', (err, r2) => {

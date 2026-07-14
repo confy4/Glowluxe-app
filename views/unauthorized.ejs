@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access Denied | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      .denied-page {
+        min-height: 100vh; display: flex; align-items: center;
+        justify-content: center; background: var(--bg);
+      }
+      .denied-card {
+        background: var(--white); border-radius: var(--radius);
+        box-shadow: 0 20px 60px rgba(122,59,46,0.12);
+        padding: 3rem 2.5rem; max-width: 480px; width: 100%;
+        text-align: center;
+      }
+      .denied-icon {
+        font-size: 4rem; margin-bottom: 1rem;
+      }
+      .denied-card h1 {
+        font-family: var(--font-head); font-size: 1.8rem;
+        color: var(--primary); margin-bottom: 0.8rem;
+      }
+      .denied-card p { color: var(--muted); margin-bottom: 2rem; line-height: 1.7; }
+    </style>
+  </head>
+  <body>
+    <div class="denied-page">
+      <div class="denied-card">
+        <div class="denied-icon">🚫</div>
+        <h1>Oops! Not Allowed</h1>
+        <p>You are not authorized to access this page. This area is restricted to GlowLuxe administrators only.</p>
+        <a href="/" class="btn">Go Back Home</a>
+      </div>
+    </div>
+  </body>
+</html>
