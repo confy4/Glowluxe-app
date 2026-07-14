@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      .payment-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 7rem 1.5rem 3rem; background: var(--bg); }
+      .payment-card { background: var(--white); border-radius: var(--radius); box-shadow: 0 20px 60px rgba(122,59,46,0.12); padding: 2.5rem; max-width: 480px; width: 100%; }
+      .payment-header { text-align: center; margin-bottom: 2rem; }
+      .payment-header h1 { font-family: var(--font-head); font-size: 1.8rem; color: var(--dark); margin-bottom: 0.3rem; }
+      .payment-header p { color: var(--muted); font-size: 0.9rem; }
+      .payment-methods { display: flex; gap: 0.8rem; margin-bottom: 1.8rem; }
+      .pay-method {
+        flex: 1; padding: 0.9rem; border: 2px solid #e8ddd8; border-radius: 10px;
+        text-align: center; cursor: pointer; transition: all 0.2s; background: var(--white);
+      }
+      .pay-method.active { border-color: #ffcc00; background: #fffde7; }
+      .pay-method img { width: 48px; height: 48px; object-fit: contain; margin: 0 auto 0.4rem; display: block; }
+      .pay-method span { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+      .momo-form { display: flex; flex-direction: column; gap: 1.1rem; }
+      .momo-banner {
+        background: linear-gradient(135deg, #ffcc00, #ffa500);
+        border-radius: 10px; padding: 1rem 1.2rem;
+        display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;
+      }
+      .momo-banner span { font-size: 2rem; }
+      .momo-banner div strong { display: block; color: #5a3a00; font-size: 1rem; }
+      .momo-banner div p { color: #7a5200; font-size: 0.82rem; margin: 0; }
+      .amount-display {
+        background: var(--secondary); border-radius: 8px; padding: 1rem;
+        display: flex; justify-content: space-between; align-items: center;
+      }
+      .amount-display span { color: var(--muted); font-size: 0.88rem; }
+      .amount-display strong { color: var(--primary); font-size: 1.2rem; }
+      .processing-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5); z-index: 999;
+        align-items: center; justify-content: center;
+      }
+      .processing-overlay.show { display: flex; }
+      .processing-box {
+        background: white; border-radius: var(--radius);
+        padding: 2.5rem; text-align: center; max-width: 320px; width: 90%;
+      }
+      .spinner {
+        width: 56px; height: 56px; border: 5px solid #f0e6df;
+        border-top-color: #ffcc00; border-radius: 50%;
+        animation: spin 0.9s linear infinite; margin: 0 auto 1.2rem;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .processing-box h3 { font-family: var(--font-head); color: var(--dark); margin-bottom: 0.5rem; }
+      .processing-box p { color: var(--muted); font-size: 0.88rem; }
+    </style>
+  </head>
+  <body>
+
+    <div class="promo-bar">
+      <div class="promo-track">
+        <span>✦ Secure Payment</span><span>✦ MTN Mobile Money Accepted</span>
+        <span>✦ Free Delivery in Kigali</span><span>✦ 100% Safe Checkout</span>
+        <span>✦ Secure Payment</span><span>✦ MTN Mobile Money Accepted</span>
+        <span>✦ Free Delivery in Kigali</span><span>✦ 100% Safe Checkout</span>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <a href="/" class="brand"><span class="brand-icon">✦</span> GlowLuxe</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/cart" class="cart-link">🛒 Cart <span class="cart-badge"><%= cartCount %></span></a>
+      </div>
+    </nav>
+
+    <div class="payment-page">
+      <div class="payment-card">
+
+        <div class="payment-header">
+          <span class="section-tag">Secure Checkout</span>
+          <h1>Complete Payment</h1>
+          <p>Choose your preferred payment method</p>
+        </div>
+
+        <!-- PAYMENT METHOD TABS -->
+        <div class="payment-methods">
+          <div class="pay-method active" id="momo-tab">
+            <div style="font-size:2rem">📱</div>
+            <span>MTN MoMo</span>
+          </div>
+          <div class="pay-method" id="airtel-tab">
+            <div style="font-size:2rem">📲</div>
+            <span>Airtel Money</span>
+          </div>
+          <div class="pay-method" id="cash-tab">
+            <div style="font-size:2rem">💵</div>
+            <span>Cash on Delivery</span>
+          </div>
+        </div>
+
+        <!-- AMOUNT -->
+        <div class="amount-display" style="margin-bottom:1.5rem">
+          <span>Total Amount</span>
+          <strong><%= formatCurrency(total) %></strong>
+        </div>
+
+        <!-- MTN MOMO FORM -->
+        <div id="momo-section">
+          <div class="momo-banner">
+            <span>🟡</span>
+            <div>
+              <strong>MTN Mobile Money</strong>
+              <p>Enter your MoMo number to pay</p>
+            </div>
+          </div>
+          <form action="/payment" method="POST" class="momo-form" onsubmit="showProcessing(event)">
+            <input type="hidden" name="method" value="MTN Mobile Money" />
+            <div class="form-group">
+              <label>MTN MoMo Phone Number</label>
+              <input type="tel" name="momoPhone" placeholder="e.g. 078 000 0000" required />
+            </div>
+            <div class="form-group">
+              <label>Full Name on Account</label>
+              <input type="text" name="momoName" placeholder="e.g. CONFIANCE Iradukunda" required />
+            </div>
+            <button class="btn btn-full" type="submit" style="background:#ffcc00;color:#5a3a00">💳 Pay <%= formatCurrency(total) %></button>
+          </form>
+        </div>
+
+        <!-- AIRTEL FORM -->
+        <div id="airtel-section" style="display:none">
+          <form action="/payment" method="POST" class="momo-form" onsubmit="showProcessing(event)">
+            <input type="hidden" name="method" value="Airtel Money" />
+            <div class="form-group">
+              <label>Airtel Money Phone Number</label>
+              <input type="tel" name="momoPhone" placeholder="e.g. 073 000 0000" required />
+            </div>
+            <div class="form-group">
+              <label>Full Name on Account</label>
+              <input type="text" name="momoName" placeholder="e.g. CONFIANCE Iradukunda" required />
+            </div>
+            <button class="btn btn-full" type="submit" style="background:#e40000;color:white">💳 Pay <%= formatCurrency(total) %></button>
+          </form>
+        </div>
+
+        <!-- CASH ON DELIVERY -->
+        <div id="cash-section" style="display:none">
+          <form action="/payment" method="POST" class="momo-form">
+            <input type="hidden" name="method" value="Cash on Delivery" />
+            <div style="background:#e8f5ee;border-radius:10px;padding:1.2rem;text-align:center;color:#1e7a45">
+              <div style="font-size:2.5rem;margin-bottom:0.5rem">💵</div>
+              <strong>Pay when your order arrives</strong>
+              <p style="font-size:0.85rem;margin-top:0.4rem">Our delivery agent will collect payment at your door.</p>
+            </div>
+            <button class="btn btn-full" type="submit">✅ Confirm Order</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PROCESSING OVERLAY -->
+    <div class="processing-overlay" id="processingOverlay">
+      <div class="processing-box">
+        <div class="spinner"></div>
+        <h3>Processing Payment...</h3>
+        <p>Please wait while we confirm your payment. Do not close this page.</p>
+      </div>
+    </div>
+
+    <script>
+      // Tab switching
+      document.getElementById('momo-tab').addEventListener('click', () => switchTab('momo'));
+      document.getElementById('airtel-tab').addEventListener('click', () => switchTab('airtel'));
+      document.getElementById('cash-tab').addEventListener('click', () => switchTab('cash'));
+
+      function switchTab(tab) {
+        ['momo', 'airtel', 'cash'].forEach(t => {
+          document.getElementById(t + '-tab').classList.remove('active');
+          document.getElementById(t + '-section').style.display = 'none';
+        });
+        document.getElementById(tab + '-tab').classList.add('active');
+        document.getElementById(tab + '-section').style.display = 'block';
+      }
+
+      function showProcessing(e) {
+        document.getElementById('processingOverlay').classList.add('show');
+      }
+    </script>
+
+  </body>
+</html>

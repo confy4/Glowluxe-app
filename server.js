@@ -165,57 +165,68 @@ app.post('/checkout', (req, res) => {
     cart.forEach((item) => stmt.run(orderId, item.name, item.quantity, item.price));
     stmt.finalize();
 
-    const now = new Date();
-    const delivery = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-    const fmt = d => d.toLocaleTimeString('en-RW', { hour: '2-digit', minute: '2-digit' }) +
-      ' on ' + d.toLocaleDateString('en-RW', { weekday: 'long', month: 'long', day: 'numeric' });
-
-    const itemRows = cart.map(i => `<tr><td style="padding:6px 12px">${i.name}</td><td style="padding:6px 12px">${i.quantity}</td><td style="padding:6px 12px">${formatCurrency(i.price * i.quantity)}</td></tr>`).join('');
-
-    mailer.sendMail({
-      from: '"GlowLuxe" <iradukundaconfiance35@gmail.com>',
-      to: customerEmail,
-      subject: `✦ Order Confirmed #${orderId} — GlowLuxe`,
-      html: `
-        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#4a3728">
-          <div style="background:#7a3b2e;padding:24px;text-align:center">
-            <h1 style="color:white;margin:0;font-size:1.6rem">✦ GlowLuxe</h1>
-            <p style="color:#f6e6da;margin:6px 0 0">Premium Lotion Co. — Kigali, Rwanda</p>
-          </div>
-          <div style="padding:32px 24px">
-            <h2 style="color:#7a3b2e">Thank you, ${customerName}! 🎉</h2>
-            <p>Your order has been placed successfully. Here are your order details:</p>
-            <div style="background:#fffaf7;border-radius:10px;padding:16px;margin:20px 0;border:1px solid #f0e6df">
-              <p><strong>Order Number:</strong> #${orderId}</p>
-              <p><strong>Order Time:</strong> ${fmt(now)}</p>
-              <p><strong>Estimated Delivery:</strong> <span style="color:#1e7a45;font-weight:bold">${fmt(delivery)}</span></p>
-              <p><strong>Delivery Address:</strong> ${address}</p>
-            </div>
-            <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
-              <thead><tr style="background:#f6e6da">
-                <th style="padding:8px 12px;text-align:left">Product</th>
-                <th style="padding:8px 12px;text-align:left">Qty</th>
-                <th style="padding:8px 12px;text-align:left">Subtotal</th>
-              </tr></thead>
-              <tbody>${itemRows}</tbody>
-            </table>
-            <div style="background:#7a3b2e;color:white;padding:14px 16px;border-radius:8px;font-size:1.1rem">
-              <strong>Total: ${formatCurrency(total)}</strong>
-            </div>
-            <p style="margin-top:24px">Our team will contact you shortly to confirm your delivery. For any questions, reply to this email or call <strong>+250 791 591 773</strong>.</p>
-          </div>
-          <div style="background:#f6e6da;padding:16px;text-align:center;font-size:0.85rem;color:#9e7b6b">
-            © 2025 GlowLuxe Lotion Co. All rights reserved.
-          </div>
-        </div>`
-    }, (mailErr, info) => {
-      if (mailErr) console.error('Email error:', mailErr.message);
-      else console.log('Email sent to', customerEmail, info.response);
-    });
-
+    req.session.pendingOrder = { orderId, customerName, customerEmail, address, total, cart };
     req.session.cart = [];
-    res.render('confirmation', { orderId, total, cartCount: 0 });
+    res.render('payment', { total, cartCount: 0 });
   });
+});
+
+app.post('/payment', (req, res) => {
+  const order = req.session.pendingOrder;
+  if (!order) return res.redirect('/');
+
+  const { orderId, customerName, customerEmail, address, total, cart } = order;
+  const now = new Date();
+  const delivery = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  const fmt = d => d.toLocaleTimeString('en-RW', { hour: '2-digit', minute: '2-digit' }) +
+    ' on ' + d.toLocaleDateString('en-RW', { weekday: 'long', month: 'long', day: 'numeric' });
+  const itemRows = cart.map(i => `<tr><td style="padding:6px 12px">${i.name}</td><td style="padding:6px 12px">${i.quantity}</td><td style="padding:6px 12px">${formatCurrency(i.price * i.quantity)}</td></tr>`).join('');
+
+  mailer.sendMail({
+    from: '"GlowLuxe" <iradukundaconfiance35@gmail.com>',
+    to: customerEmail,
+    subject: `✦ Order Confirmed #${orderId} — GlowLuxe`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#4a3728">
+        <div style="background:#7a3b2e;padding:24px;text-align:center">
+          <h1 style="color:white;margin:0;font-size:1.6rem">✦ GlowLuxe</h1>
+          <p style="color:#f6e6da;margin:6px 0 0">Premium Lotion Co. — Kigali, Rwanda</p>
+        </div>
+        <div style="padding:32px 24px">
+          <h2 style="color:#7a3b2e">Thank you, ${customerName}! 🎉</h2>
+          <p>Your order has been placed successfully. Here are your order details:</p>
+          <div style="background:#fffaf7;border-radius:10px;padding:16px;margin:20px 0;border:1px solid #f0e6df">
+            <p><strong>Order Number:</strong> #${orderId}</p>
+            <p><strong>Payment Method:</strong> ${req.body.method}</p>
+            <p><strong>Order Time:</strong> ${fmt(now)}</p>
+            <p><strong>Estimated Delivery:</strong> <span style="color:#1e7a45;font-weight:bold">${fmt(delivery)}</span></p>
+            <p><strong>Delivery Address:</strong> ${address}</p>
+          </div>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+            <thead><tr style="background:#f6e6da">
+              <th style="padding:8px 12px;text-align:left">Product</th>
+              <th style="padding:8px 12px;text-align:left">Qty</th>
+              <th style="padding:8px 12px;text-align:left">Subtotal</th>
+            </tr></thead>
+            <tbody>${itemRows}</tbody>
+          </table>
+          <div style="background:#7a3b2e;color:white;padding:14px 16px;border-radius:8px;font-size:1.1rem">
+            <strong>Total: ${formatCurrency(total)}</strong>
+          </div>
+          <p style="margin-top:24px">Our team will contact you shortly. Call <strong>+250 791 591 773</strong> for questions.</p>
+        </div>
+        <div style="background:#f6e6da;padding:16px;text-align:center;font-size:0.85rem;color:#9e7b6b">
+          © 2025 GlowLuxe Lotion Co. All rights reserved.
+        </div>
+      </div>`
+  }, (mailErr, info) => {
+    if (mailErr) console.error('Email error:', mailErr.message);
+    else console.log('Email sent to', customerEmail, info.response);
+  });
+
+  req.session.pendingOrder = null;
+  res.render('confirmation', { orderId, total, cartCount: 0 });
+});
 });
 
 app.get('/about', (req, res) => res.render('about', { cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) }));
