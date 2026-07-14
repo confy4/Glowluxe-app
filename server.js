@@ -9,7 +9,7 @@ const mailer = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+  auth: { user: 'iradukundaconfiance35@gmail.com', pass: 'hiiz qtfx gzfo mddy' }
 });
 
 const app = express();
@@ -227,12 +227,11 @@ app.post('/payment', (req, res) => {
   req.session.pendingOrder = null;
   res.render('confirmation', { orderId, total, cartCount: 0 });
 });
-});
 
 app.get('/about', (req, res) => res.render('about', { cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) }));
 
 app.get('/admin', (req, res) => {
-  if (req.query.pass !== 'glowluxe2025') return res.status(401).render('unauthorized');
+  if (req.query.pass !== 'glowluxe2026') return res.status(401).render('unauthorized');
   const cartCount = req.session.cart.reduce((sum, item) => sum + item.quantity, 0);
   db.get('SELECT COUNT(*) AS count FROM orders', (err, r1) => {
     db.get('SELECT COALESCE(SUM(total),0) AS revenue FROM orders', (err, r2) => {
