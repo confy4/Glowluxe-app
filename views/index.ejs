@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GlowLuxe — Premium Lotion Co.</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#7a3b2e" />
+  </head>
+  <body>
+
+    <!-- MARQUEE PROMO BAR -->
+    <div class="promo-bar">
+      <div class="promo-track">
+        <span>✦ Free Delivery in Kigali</span>
+        <span>✦ 100% Natural Ingredients</span>
+        <span>✦ New Collection 2025</span>
+        <span>✦ Dermatologist Tested</span>
+        <span>✦ Buy 2 Get 1 Free</span>
+        <span>✦ Free Delivery in Kigali</span>
+        <span>✦ 100% Natural Ingredients</span>
+        <span>✦ New Collection 2025</span>
+        <span>✦ Dermatologist Tested</span>
+        <span>✦ Buy 2 Get 1 Free</span>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="navbar">
+      <a href="/" class="brand">
+        <span class="brand-icon">✦</span> GlowLuxe
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/admin">Admin</a>
+        <a href="/cart" class="cart-link">
+          🛒 Cart <span class="cart-badge"><%= cartCount %></span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-overlay"></div>
+      <img class="hero-bg active" src="/images/hero1.jpg" alt="Body Butter Texture" />
+      <img class="hero-bg" src="/images/skin1.webp" alt="Skincare" />
+      <img class="hero-bg" src="/images/skin2.webp" alt="Lotion" />
+      <img class="hero-bg" src="/images/hero2.jpg" alt="Our Skincare" />
+      <img class="hero-bg" src="/images/hero3.jpg" alt="Lotion Collection" />
+      <div class="hero-content">
+        <span class="hero-tag">New Collection 2025</span>
+        <h1>Glow Like Never Before</h1>
+        <p>Premium lotions crafted for deep hydration, radiant skin, and everyday confidence.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#products">Shop Now</a>
+          <a class="btn btn-outline" href="/about">Our Story</a>
+        </div>
+        <div class="hero-dots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+          <span class="dot" data-index="3"></span>
+          <span class="dot" data-index="4"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat">
+        <strong>6+</strong>
+        <span>Products</span>
+      </div>
+      <div class="stat">
+        <strong>100%</strong>
+        <span>Natural Ingredients</span>
+      </div>
+      <div class="stat">
+        <strong>Free</strong>
+        <span>Delivery in Kigali</span>
+      </div>
+      <div class="stat">
+        <strong>24/7</strong>
+        <span>Customer Support</span>
+      </div>
+    </div>
+
+    <main>
+
+      <!-- PHOTO GALLERY STRIP -->
+      <section class="gallery-strip">
+        <div class="gallery-track">
+          <img src="/images/p1.webp" alt="Lotion 1" />
+          <img src="/images/p2.jpg" alt="Lotion 2" />
+          <img src="/images/p3.jpg" alt="Lotion 3" />
+          <img src="/images/p4.webp" alt="Lotion 4" />
+          <img src="/images/p5.jpg" alt="Lotion 5" />
+          <img src="/images/p6.jpg" alt="Lotion 6" />
+          <img src="/images/p7.jpg" alt="Lotion 7" />
+          <img src="/images/p8.webp" alt="Lotion 8" />
+          <img src="/images/p9.jpg" alt="Lotion 9" />
+          <img src="/images/p10.webp" alt="Lotion 10" />
+          <!-- duplicate for seamless loop -->
+          <img src="/images/p1.webp" alt="Lotion 1" />
+          <img src="/images/p2.jpg" alt="Lotion 2" />
+          <img src="/images/p3.jpg" alt="Lotion 3" />
+          <img src="/images/p4.webp" alt="Lotion 4" />
+          <img src="/images/p5.jpg" alt="Lotion 5" />
+          <img src="/images/p6.jpg" alt="Lotion 6" />
+          <img src="/images/p7.jpg" alt="Lotion 7" />
+          <img src="/images/p8.webp" alt="Lotion 8" />
+          <img src="/images/p9.jpg" alt="Lotion 9" />
+          <img src="/images/p10.webp" alt="Lotion 10" />
+        </div>
+      </section>
+
+
+
+      <!-- VIDEO SECTION -->
+      <section class="video-showcase">
+        <div class="video-copy">
+          <span class="section-tag">Why GlowLuxe?</span>
+          <h2>See the Glow in Motion</h2>
+          <p>Watch how our lotions transform your daily skincare routine into a luxurious ritual.</p>
+          <ul class="benefit-list">
+            <li>✔ Deep hydration for dry skin</li>
+            <li>✔ Lightweight comfort all day</li>
+            <li>✔ Dermatologist-tested formulas</li>
+            <li>✔ Made with natural ingredients</li>
+          </ul>
+          <a class="btn" href="#products">Explore Products</a>
+        </div>
+        <div class="video-frame">
+          <div class="lotion-slideshow">
+            <img class="slide active" src="/images/p1.webp" alt="Lotion" />
+            <img class="slide" src="/images/p4.webp" alt="Lotion" />
+            <img class="slide" src="/images/p6.jpg" alt="Lotion" />
+            <img class="slide" src="/images/p9.jpg" alt="Lotion" />
+          </div>
+        </div>
+      </section>
+
+      <!-- CATEGORY PILLS -->
+      <section id="products" class="products-section">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">Our Collection</span>
+            <h2>All Products</h2>
+          </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="search-wrap">
+          <input type="text" id="searchInput" placeholder="🔍  Search products..." class="search-input" />
+        </div>
+
+        <div class="category-pills">
+          <button class="pill active" data-cat="all">All (10)</button>
+          <button class="pill" data-cat="Body Care">Body Care</button>
+          <button class="pill" data-cat="Medicinal">Medicinal</button>
+          <button class="pill" data-cat="Sun Care">Sun Care</button>
+          <button class="pill" data-cat="Luxury">Luxury</button>
+        </div>
+
+        <!-- PRODUCT GRID -->
+        <div class="product-grid">
+          <% products.forEach((product, i) => { %>
+            <article class="product-card" data-cat="<%= product.category %>">
+              <div class="product-img-wrap">
+                <img src="<%= product.image %>" alt="<%= product.name %>" loading="lazy" />
+                <span class="product-badge"><%= product.category %></span>
+                <% if (i < 2) { %><span class="product-new">New</span><% } %>
+              </div>
+              <div class="product-info">
+                <h3><%= product.name %></h3>
+                <div class="product-stars">★★★★★</div>
+                <p><%= product.description %></p>
+                <div class="product-meta">
+                  <span class="price"><%= formatCurrency(product.price) %></span>
+                  <div class="product-actions">
+                    <a class="btn btn-sm" href="/product/<%= product.id %>">View</a>
+                    <form action="/cart/add" method="POST" style="display:inline">
+                      <input type="hidden" name="productId" value="<%= product.id %>" />
+                      <button class="btn btn-sm btn-accent" type="submit">+ Cart</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="testimonials">
+        <span class="section-tag">Happy Customers</span>
+        <h2>What People Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=100&q=80" alt="Customer" />
+            <p>"GlowLuxe changed my skin completely. The Cocoa Comfort Lotion is absolutely amazing!"</p>
+            <strong>— Amina K., Kigali</strong>
+          </div>
+          <div class="testimonial-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Customer" />
+            <p>"Fast delivery and the Rose Velvet Lotion smells incredible. Highly recommend!"</p>
+            <strong>— Jean-Paul M., Musanze</strong>
+          </div>
+          <div class="testimonial-card">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" alt="Customer" />
+            <p>"The Sun Shield Lotion is perfect for our climate. Light, protective, and non-greasy."</p>
+            <strong>— Diane U., Huye</strong>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <div class="brand">✦ GlowLuxe</div>
+          <p>Premium lotions for radiant, healthy skin. Made with love in Rwanda.</p>
+        </div>
+        <div>
+          <strong>Quick Links</strong>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cart">Cart</a></li>
+          </ul>
+        </div>
+        <div>
+          <strong>Contact</strong>
+          <p>Kigali, Rwanda<br/>info@glowluxe.rw<br/>+250 700 000 000</p>
+        </div>
+      </div>
+      <p class="footer-copy">© 2025 GlowLuxe Lotion Co. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Search
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        const activeCat = document.querySelector('.pill.active').dataset.cat;
+        document.querySelectorAll('.product-card').forEach(card => {
+          const name = card.querySelector('h3').textContent.toLowerCase();
+          const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+          card.style.display = (matchCat && name.includes(query)) ? '' : 'none';
+        });
+      });
+
+      // Category filter
+      document.querySelectorAll('.pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const cat = pill.dataset.cat;
+          const query = searchInput.value.toLowerCase();
+          document.querySelectorAll('.product-card').forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const matchCat = cat === 'all' || card.dataset.cat === cat;
+            card.style.display = (matchCat && name.includes(query)) ? '' : 'none';
+          });
+        });
+      });
+
+      // Lotion image slideshow
+      const slides = document.querySelectorAll('.lotion-slideshow .slide');
+      let slideIndex = 0;
+      setInterval(() => {
+        slides[slideIndex].classList.remove('active');
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add('active');
+      }, 3000);
+
+      // Hero slideshow
+      const bgs = document.querySelectorAll('.hero-bg');
+      const dots = document.querySelectorAll('.dot');
+      let current = 0;
+      function showSlide(n) {
+        bgs[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + bgs.length) % bgs.length;
+        bgs[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+      dots.forEach(dot => dot.addEventListener('click', () => showSlide(+dot.dataset.index)));
+      setInterval(() => showSlide(current + 1), 4000);
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    </script>
+  </body>
+</html>

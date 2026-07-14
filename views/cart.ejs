@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+    <div class="promo-bar">
+      <div class="promo-track">
+        <span>✦ Free Delivery in Kigali</span>
+        <span>✦ 100% Natural Ingredients</span>
+        <span>✦ New Collection 2025</span>
+        <span>✦ Dermatologist Tested</span>
+        <span>✦ Buy 2 Get 1 Free</span>
+        <span>✦ Free Delivery in Kigali</span>
+        <span>✦ 100% Natural Ingredients</span>
+        <span>✦ New Collection 2025</span>
+        <span>✦ Dermatologist Tested</span>
+        <span>✦ Buy 2 Get 1 Free</span>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <a href="/" class="brand"><span class="brand-icon">✦</span> GlowLuxe</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/cart" class="cart-link">🛒 Cart <span class="cart-badge"><%= cartCount %></span></a>
+      </div>
+    </nav>
+
+    <main class="cart-page">
+
+      <div class="page-hero">
+        <span class="section-tag">Your Selection</span>
+        <h1>Shopping Cart</h1>
+      </div>
+
+      <% if (cart.length === 0) { %>
+        <div class="empty-cart">
+          <div class="empty-icon">🛒</div>
+          <h2>Your cart is empty</h2>
+          <p>Looks like you haven't added any products yet.</p>
+          <a class="btn" href="/">Start Shopping</a>
+        </div>
+      <% } else { %>
+        <div class="cart-layout">
+
+          <div class="cart-items-col">
+            <% cart.forEach((item) => { %>
+              <div class="cart-card">
+                <div class="cart-card-info">
+                  <h3><%= item.name %></h3>
+                  <p class="cart-price"><%= formatCurrency(item.price) %> each</p>
+                  <p class="cart-subtotal">Subtotal: <strong><%= formatCurrency(item.price * item.quantity) %></strong></p>
+                </div>
+                <div class="cart-card-actions">
+                  <form action="/cart/update" method="post" class="quantity-form">
+                    <input type="hidden" name="productId" value="<%= item.id %>" />
+                    <div class="qty-control">
+                      <label>Qty</label>
+                      <input type="number" name="quantity" value="<%= item.quantity %>" min="1" />
+                      <button class="btn btn-sm" type="submit">Update</button>
+                    </div>
+                  </form>
+                  <form action="/cart/remove" method="post">
+                    <input type="hidden" name="productId" value="<%= item.id %>" />
+                    <button class="btn-remove" type="submit">✕ Remove</button>
+                  </form>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="cart-summary-col">
+            <div class="summary-card">
+              <h2>Order Summary</h2>
+              <div class="summary-lines">
+                <% cart.forEach((item) => { %>
+                  <div class="summary-line">
+                    <span><%= item.name %> × <%= item.quantity %></span>
+                    <span><%= formatCurrency(item.price * item.quantity) %></span>
+                  </div>
+                <% }) %>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-total">
+                <span>Total</span>
+                <span><%= formatCurrency(total) %></span>
+              </div>
+              <a class="btn btn-full" href="/checkout">Proceed to Checkout →</a>
+              <a class="btn-ghost" href="/">← Continue Shopping</a>
+            </div>
+            <div class="trust-badges">
+              <div class="badge">🔒 Secure Checkout</div>
+              <div class="badge">🚚 Free Delivery</div>
+              <div class="badge">✅ Quality Guaranteed</div>
+            </div>
+          </div>
+
+        </div>
+      <% } %>
+    </main>
+
+    <footer class="footer">
+      <p class="footer-copy">© 2025 GlowLuxe Lotion Co. All rights reserved.</p>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "lotion-commerce",
+  "version": "1.0.0",
+  "description": "A modern e-commerce web app for a lotion-selling company",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.19.0",
+    "nodemailer": "^9.0.3",
+    "sqlite3": "^5.0.1"
+  }
+}

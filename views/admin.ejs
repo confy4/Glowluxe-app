@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      .admin-page { padding: 7rem 2.5rem 3rem; max-width: 1100px; margin: 0 auto; }
+      .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+      .admin-stat-card {
+        background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+        padding: 1.5rem; text-align: center;
+      }
+      .admin-stat-card .stat-value { font-family: var(--font-head); font-size: 2rem; color: var(--primary); display: block; }
+      .admin-stat-card .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+      .admin-section { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.8rem; margin-bottom: 2rem; }
+      .admin-section h2 { font-family: var(--font-head); font-size: 1.4rem; color: var(--dark); margin-bottom: 1.2rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+      th { text-align: left; padding: 0.6rem 0.8rem; background: var(--secondary); color: var(--primary); font-weight: 600; }
+      td { padding: 0.7rem 0.8rem; border-bottom: 1px solid #f0e6df; color: var(--text); }
+      tr:last-child td { border-bottom: none; }
+      tr:hover td { background: #fffaf7; }
+      .no-data { color: var(--muted); font-style: italic; text-align: center; padding: 2rem; }
+    </style>
+  </head>
+  <body>
+
+    <div class="promo-bar">
+      <div class="promo-track">
+        <span>✦ Admin Dashboard</span><span>✦ GlowLuxe Management</span>
+        <span>✦ Admin Dashboard</span><span>✦ GlowLuxe Management</span>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <a href="/" class="brand"><span class="brand-icon">✦</span> GlowLuxe</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/admin">Admin</a>
+        <a href="/cart" class="cart-link">🛒 Cart <span class="cart-badge"><%= cartCount %></span></a>
+      </div>
+    </nav>
+
+    <div class="admin-page">
+      <span class="section-tag">Management</span>
+      <h1 style="font-family:var(--font-head);font-size:2rem;color:var(--dark);margin-bottom:2rem;">Admin Dashboard</h1>
+
+      <!-- STATS -->
+      <div class="admin-stats">
+        <div class="admin-stat-card">
+          <span class="stat-value"><%= totalOrders %></span>
+          <span class="stat-label">Total Orders</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="stat-value"><%= formatCurrency(totalRevenue) %></span>
+          <span class="stat-label">Total Revenue</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="stat-value"><%= totalProducts %></span>
+          <span class="stat-label">Products Listed</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="stat-value"><%= totalItemsSold %></span>
+          <span class="stat-label">Items Sold</span>
+        </div>
+      </div>
+
+      <!-- TOP PRODUCTS -->
+      <div class="admin-section">
+        <h2>🏆 Top Selling Products</h2>
+        <% if (topProducts.length) { %>
+        <table>
+          <thead><tr><th>#</th><th>Product</th><th>Units Sold</th><th>Revenue</th></tr></thead>
+          <tbody>
+            <% topProducts.forEach((p, i) => { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= p.product_name %></td>
+              <td><%= p.total_qty %></td>
+              <td><%= formatCurrency(p.total_revenue) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <% } else { %>
+        <p class="no-data">No sales data yet.</p>
+        <% } %>
+      </div>
+
+      <!-- RECENT ORDERS -->
+      <div class="admin-section">
+        <h2>📦 Recent Orders</h2>
+        <% if (recentOrders.length) { %>
+        <table>
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Phone</th><th>Total</th><th>Date</th></tr></thead>
+          <tbody>
+            <% recentOrders.forEach(order => { %>
+            <tr>
+              <td>#<%= order.id %></td>
+              <td><%= order.customer_name %></td>
+              <td><%= order.customer_email %></td>
+              <td><%= order.phone %></td>
+              <td><%= formatCurrency(order.total) %></td>
+              <td><%= new Date(order.created_at).toLocaleDateString('en-RW') %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <% } else { %>
+        <p class="no-data">No orders placed yet.</p>
+        <% } %>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div><div class="brand">✦ GlowLuxe</div><p>Premium lotions for radiant, healthy skin.</p></div>
+        <div><strong>Quick Links</strong><ul><li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/cart">Cart</a></li></ul></div>
+        <div><strong>Contact</strong><p>Kigali, Rwanda<br/>info@glowluxe.rw<br/>+250 700 000 000</p></div>
+      </div>
+      <p class="footer-copy">© 2025 GlowLuxe Lotion Co. All rights reserved.</p>
+    </footer>
+
+  </body>
+</html>

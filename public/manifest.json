@@ -1,0 +1,13 @@
+{
+  "name": "GlowLuxe Lotion Co.",
+  "short_name": "GlowLuxe",
+  "description": "Premium lotions for radiant, healthy skin.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf7",
+  "theme_color": "#7a3b2e",
+  "icons": [
+    { "src": "/images/p1.webp", "sizes": "192x192", "type": "image/webp" },
+    { "src": "/images/p1.webp", "sizes": "512x512", "type": "image/webp" }
+  ]
+}
