@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 1.5rem 3rem; background: var(--bg); }
+      .auth-card { background: var(--white); border-radius: var(--radius); box-shadow: 0 20px 60px rgba(122,59,46,0.12); padding: 2.5rem; max-width: 440px; width: 100%; }
+      .auth-card h1 { font-family: var(--font-head); font-size: 1.8rem; color: var(--dark); margin-bottom: 0.3rem; text-align: center; }
+      .auth-card p { color: var(--muted); text-align: center; margin-bottom: 1.8rem; font-size: 0.9rem; }
+      .error-msg { background: #ffeaea; color: #c0392b; border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1rem; font-size: 0.88rem; }
+      .auth-footer { text-align: center; margin-top: 1.2rem; font-size: 0.88rem; color: var(--muted); }
+      .auth-footer a { color: var(--primary); font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="/" class="brand"><span class="brand-icon">✦</span> GlowLuxe</a>
+      <div class="nav-links"><a href="/">Home</a><a href="/login">Login</a></div>
+    </nav>
+    <div class="auth-page">
+      <div class="auth-card">
+        <div style="text-align:center;font-size:2.5rem;margin-bottom:0.5rem">✦</div>
+        <h1>Create Account</h1>
+        <p>Join GlowLuxe and start shopping</p>
+        <% if (error) { %><div class="error-msg"><%= error %></div><% } %>
+        <form action="/register" method="POST" class="checkout-form-inner">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="e.g. Amina Uwase" required />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="e.g. amina@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create a password" required />
+          </div>
+          <button class="btn btn-full" type="submit">Create Account</button>
+        </form>
+        <div class="auth-footer">Already have an account? <a href="/login">Login here</a></div>
+      </div>
+    </div>
+  </body>
+</html>

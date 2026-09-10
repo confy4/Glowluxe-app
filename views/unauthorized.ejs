@@ -34,6 +34,10 @@
         <div class="denied-icon">🚫</div>
         <h1>Oops! Not Allowed</h1>
         <p>You are not authorized to access this page. This area is restricted to GlowLuxe administrators only.</p>
+        <form action="/admin" method="GET" style="display:flex;flex-direction:column;gap:0.8rem;margin:1.2rem 0 1.5rem;">
+          <input type="password" name="pass" placeholder="Enter admin password" required style="padding:0.8rem 1rem;border:1px solid #e5d7cc;border-radius:8px;font:inherit;" />
+          <button type="submit" class="btn">Access Admin</button>
+        </form>
         <a href="/" class="btn">Go Back Home</a>
       </div>
     </div>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | GlowLuxe</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      .admin-page { padding: 7rem 2.5rem 3rem; max-width: 1200px; margin: 0 auto; }
+      .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+      .admin-stat-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem; text-align: center; }
+      .admin-stat-card .stat-value { font-family: var(--font-head); font-size: 2rem; color: var(--primary); display: block; }
+      .admin-stat-card .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+      .admin-section { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.8rem; margin-bottom: 2rem; }
+      .admin-section h2 { font-family: var(--font-head); font-size: 1.4rem; color: var(--dark); margin-bottom: 1.2rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+      th { text-align: left; padding: 0.6rem 0.8rem; background: var(--secondary); color: var(--primary); font-weight: 600; }
+      td { padding: 0.7rem 0.8rem; border-bottom: 1px solid #f0e6df; color: var(--text); vertical-align: middle; }
+      tr:last-child td { border-bottom: none; }
+      .add-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; align-items: end; }
+      .add-form input, .add-form select, .add-form textarea { padding: 0.6rem 0.9rem; border: 1.5px solid #e8ddd8; border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; width: 100%; }
+      .add-form input:focus, .add-form select:focus { outline: none; border-color: var(--accent); }
+      .btn-danger { background: #e05555; color: white; padding: 0.4rem 0.9rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+      .btn-danger:hover { background: #c03030; }
+      .product-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+      .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+      .tab-btn { padding: 0.5rem 1.2rem; border-radius: 20px; border: 2px solid var(--primary); background: transparent; color: var(--primary); font-weight: 600; cursor: pointer; transition: all 0.2s; }
+      .tab-btn.active { background: var(--primary); color: white; }
+      .tab-content { display: none; }
+      .tab-content.active { display: block; }
+      .no-data { color: var(--muted); font-style: italic; text-align: center; padding: 2rem; }
+      .ad-preview { width: 80px; height: 50px; object-fit: cover; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+
+    <div class="promo-bar">
+      <div class="promo-track">
+        <span>✦ Admin Dashboard</span><span>✦ GlowLuxe Management Panel</span>
+        <span>✦ Admin Dashboard</span><span>✦ GlowLuxe Management Panel</span>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <a href="/" class="brand"><span class="brand-icon">✦</span> GlowLuxe</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/admin?pass=glowluxe2026" style="color:var(--accent);font-weight:700">Admin Panel</a>
+        <a href="/cart" class="cart-link">🛒 Cart <span class="cart-badge"><%= cartCount %></span></a>
+      </div>
+    </nav>
+
+    <div class="admin-page">
+      <span class="section-tag">Management</span>
+      <h1 style="font-family:var(--font-head);font-size:2rem;color:var(--dark);margin-bottom:2rem;">Admin Dashboard</h1>
+
+      <!-- STATS -->
+      <div class="admin-stats">
+        <div class="admin-stat-card"><span class="stat-value"><%= totalOrders %></span><span class="stat-label">Total Orders</span></div>
+        <div class="admin-stat-card"><span class="stat-value"><%= formatCurrency(totalRevenue) %></span><span class="stat-label">Total Revenue</span></div>
+        <div class="admin-stat-card"><span class="stat-value"><%= totalProducts %></span><span class="stat-label">Products</span></div>
+        <div class="admin-stat-card"><span class="stat-value"><%= totalItemsSold %></span><span class="stat-label">Items Sold</span></div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('orders')">📦 Orders</button>
+        <button class="tab-btn" onclick="switchTab('products')">🧴 Products</button>
+        <button class="tab-btn" onclick="switchTab('ads')">📢 Advertisements</button>
+        <button class="tab-btn" onclick="switchTab('topselling')">🏆 Top Selling</button>
+      </div>
+
+      <!-- ORDERS TAB -->
+      <div class="tab-content active" id="tab-orders">
+        <div class="admin-section">
+          <h2>📦 Recent Orders</h2>
+          <% if (recentOrders.length) { %>
+          <table>
+            <thead><tr><th>ID</th><th>Customer</th><th>Email</th><th>Phone</th><th>Address</th><th>Total</th><th>Date</th></tr></thead>
+            <tbody>
+              <% recentOrders.forEach(order => { %>
+              <tr>
+                <td>#<%= order.id %></td>
+                <td><%= order.customer_name %></td>
+                <td><%= order.customer_email %></td>
+                <td><%= order.phone %></td>
+                <td><%= order.address %></td>
+                <td><%= formatCurrency(order.total) %></td>
+                <td><%= new Date(order.created_at).toLocaleDateString('en-RW') %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %><p class="no-data">No orders yet.</p><% } %>
+        </div>
+      </div>
+
+      <!-- PRODUCTS TAB -->
+      <div class="tab-content" id="tab-products">
+        <div class="admin-section">
+          <h2>➕ Add New Product</h2>
+          <form action="/admin/products/add" method="POST">
+            <div class="add-form">
+              <input type="text" name="name" placeholder="Product Name" required />
+              <select name="category" required>
+                <option value="">Category</option>
+                <option value="Body Care">Body Care</option>
+                <option value="Luxury">Luxury</option>
+                <option value="Medicinal">Medicinal</option>
+                <option value="Sun Care">Sun Care</option>
+              </select>
+              <input type="number" name="price" placeholder="Price (RWF)" required />
+              <input type="text" name="image" placeholder="Image path e.g. /images/p1.webp" />
+              <input type="text" name="description" placeholder="Description" required />
+              <button class="btn" type="submit">Add Product</button>
+            </div>
+          </form>
+        </div>
+        <div class="admin-section">
+          <h2>🧴 All Products</h2>
+          <% if (products.length) { %>
+          <table>
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
+            <tbody>
+              <% products.forEach(p => { %>
+              <tr>
+                <td><img src="<%= p.image %>" class="product-thumb" alt="<%= p.name %>" /></td>
+                <td><%= p.name %></td>
+                <td><%= p.category %></td>
+                <td><%= formatCurrency(p.price) %></td>
+                <td>
+                  <form action="/admin/products/<%= p.id %>/delete" method="POST" onsubmit="return confirm('Delete this product?')">
+                    <button class="btn-danger" type="submit">🗑 Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %><p class="no-data">No products found.</p><% } %>
+        </div>
+      </div>
+
+      <!-- ADS TAB -->
+      <div class="tab-content" id="tab-ads">
+        <div class="admin-section">
+          <h2>➕ Add Advertisement</h2>
+          <form action="/admin/ads/add" method="POST">
+            <div class="add-form">
+              <input type="text" name="title" placeholder="Ad Title e.g. 50% OFF Today!" required />
+              <input type="text" name="subtitle" placeholder="Subtitle e.g. Limited offer" />
+              <input type="text" name="image" placeholder="Image path e.g. /images/p5.jpg" />
+              <input type="text" name="link" placeholder="Link e.g. /product/5" />
+              <button class="btn" type="submit">Add Ad</button>
+            </div>
+          </form>
+        </div>
+        <div class="admin-section">
+          <h2>📢 Active Advertisements</h2>
+          <% if (ads.length) { %>
+          <table>
+            <thead><tr><th>Image</th><th>Title</th><th>Subtitle</th><th>Link</th><th>Action</th></tr></thead>
+            <tbody>
+              <% ads.forEach(ad => { %>
+              <tr>
+                <td><% if(ad.image) { %><img src="<%= ad.image %>" class="ad-preview" /><% } else { %>—<% } %></td>
+                <td><strong><%= ad.title %></strong></td>
+                <td><%= ad.subtitle || '—' %></td>
+                <td><%= ad.link || '—' %></td>
+                <td>
+                  <form action="/admin/ads/<%= ad.id %>/delete" method="POST" onsubmit="return confirm('Delete this ad?')">
+                    <button class="btn-danger" type="submit">🗑 Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %><p class="no-data">No advertisements yet.</p><% } %>
+        </div>
+      </div>
+
+      <!-- TOP SELLING TAB -->
+      <div class="tab-content" id="tab-topselling">
+        <div class="admin-section">
+          <h2>🏆 Top Selling Products</h2>
+          <% if (topProducts.length) { %>
+          <table>
+            <thead><tr><th>#</th><th>Product</th><th>Units Sold</th><th>Revenue</th></tr></thead>
+            <tbody>
+              <% topProducts.forEach((p, i) => { %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td><%= p.product_name %></td>
+                <td><%= p.total_qty %></td>
+                <td><%= formatCurrency(p.total_revenue) %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %><p class="no-data">No sales data yet.</p><% } %>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p class="footer-copy">© 2026 GlowLuxe Lotion Co. All rights reserved.</p>
+    </footer>
+
+    <script>
+      function switchTab(name) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.add('active');
+        event.target.classList.add('active');
+      }
+    </script>
+
+  </body>
+</html>
